@@ -317,7 +317,7 @@
     const formatStat = (v) => isNumber(v) ? v.toLocaleString() : (v !== undefined ? v : 'N/A');
 
     let html = `<div class="comparison-card">
-      <div><span class="stats-badge">Category: ${escapeHtml(selectedCategory)}</span><span class="stats-badge">Players total: ${playersList.length}</span></div>
+      <div><span class="stats-badge">Category: ${escapeHtml(selectedCategory)}</span></div>
       <div class="comparison-grid">
         <div class="single-player-stat">
           <div class="player-name">${p1Valid ? escapeHtml(p1) : 'Invalid: ' + escapeHtml(p1)}</div>
