@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Minecraft Stats Comparator · Player Activity Tool</title>
-  <!-- PapaParse for robust CSV parsing -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IDK what you would call this game</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     * {
@@ -22,11 +21,10 @@
     }
 
     .container {
-      max-width: 1300px;
+      max-width: 1000px;
       margin: 0 auto;
     }
 
-    /* headers & structure */
     h1 {
       font-size: 1.9rem;
       font-weight: 600;
@@ -39,41 +37,25 @@
     .sub {
       color: #2c2c2c;
       margin-bottom: 2rem;
-      font-size: 0.95rem;
       border-bottom: 1px solid #e0e0e0;
       padding-bottom: 0.75rem;
     }
 
-    /* three main parts */
     .part {
       background: #fefefe;
       border: 1px solid #ddd;
       border-radius: 18px;
       padding: 1.4rem 1.8rem;
       margin-bottom: 2rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-      transition: box-shadow 0.1s ease;
     }
 
     .part-title {
       font-weight: 600;
       font-size: 1.3rem;
       margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
       color: #111;
     }
 
-    .part-title span {
-      background: #eaeaea;
-      font-size: 0.8rem;
-      font-weight: normal;
-      padding: 2px 10px;
-      border-radius: 40px;
-    }
-
-    /* form groups */
     .form-group {
       margin-bottom: 1.2rem;
     }
@@ -83,7 +65,6 @@
       font-weight: 500;
       margin-bottom: 6px;
       font-size: 0.9rem;
-      color: #1e1e1e;
     }
 
     .combo-input {
@@ -95,7 +76,6 @@
       border-radius: 14px;
       background: white;
       color: black;
-      transition: 0.1s linear;
       font-family: monospace;
     }
 
@@ -128,21 +108,17 @@
       cursor: pointer;
       transition: 0.1s;
       margin-top: 0.6rem;
-      font-family: inherit;
     }
 
     .update-btn:hover {
       background: #2c2c2c;
-      transform: scale(0.98);
     }
 
-    /* results area */
     .comparison-card {
       background: #f8f8f8;
-      border-radius: 20px;
-      padding: 1.2rem 1.5rem;
-      margin-bottom: 2rem;
-      border-left: 4px solid #2c2c2c;
+      border-radius: 24px;
+      padding: 1.5rem 2rem;
+      border-left: 6px solid #1e1e1e;
     }
 
     .stats-badge {
@@ -154,88 +130,50 @@
       font-weight: 600;
       margin-right: 12px;
       border: 1px solid #ccc;
-    }
-
-    .player-highlight {
-      background: #fff1cf;
-      font-weight: 600;
+      font-size: 0.9rem;
     }
 
     .comparison-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 2.5rem;
       justify-content: space-between;
       align-items: baseline;
-      margin-top: 1rem;
+      margin: 1.5rem 0 1rem;
     }
 
     .single-player-stat {
       background: white;
-      border-radius: 24px;
-      padding: 0.6rem 1.2rem;
+      border-radius: 28px;
+      padding: 1rem 1.8rem;
       flex: 1;
-      min-width: 180px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      min-width: 200px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     .player-name {
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
     }
 
     .stat-number {
-      font-size: 2rem;
-      font-weight: 700;
+      font-size: 3.5rem;
+      font-weight: 800;
       font-family: 'Courier New', monospace;
-      letter-spacing: -0.5px;
+      letter-spacing: -1px;
+      line-height: 1.2;
     }
 
     .diff-info {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      background: #ececec;
-      padding: 6px 14px;
-      border-radius: 30px;
+      margin-top: 1.2rem;
+      background: #eaeaea;
+      padding: 10px 20px;
+      border-radius: 40px;
       display: inline-block;
-    }
-
-    /* full players table */
-    .table-wrapper {
-      overflow-x: auto;
-      border-radius: 18px;
-      border: 1px solid #e2e2e2;
-      background: white;
-    }
-
-    .stats-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
-    .stats-table th {
-      text-align: left;
-      padding: 12px 16px;
-      background: #f2f2f2;
-      font-weight: 600;
-      border-bottom: 2px solid #ddd;
-    }
-
-    .stats-table td {
-      padding: 10px 16px;
-      border-bottom: 1px solid #ececec;
-      font-family: monospace;
-    }
-
-    .stats-table tr.highlight-row {
-      background-color: #fff0cc;
+      font-size: 1.2rem;
       font-weight: 500;
-      border-left: 3px solid #000;
-    }
-
-    .stats-table tr:hover {
-      background-color: #f9f9f9;
     }
 
     .error-msg {
@@ -244,7 +182,6 @@
       padding: 12px 18px;
       border-radius: 40px;
       margin: 1rem 0;
-      font-weight: 500;
     }
 
     .loading {
@@ -257,86 +194,60 @@
 
     footer {
       margin-top: 2rem;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: #6c6c6c;
       text-align: center;
       border-top: 1px solid #eee;
-      padding-top: 1.5rem;
+      padding-top: 1.2rem;
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>⚡ MineStats · Activity Comparator</h1>
-  <div class="sub">Compare player activity — search any category, pick two players, see full stats aloud</div>
+  <h1>Gambling Helper</h1>
 
-  <!-- PART 1: Category selection (dropdown + typing) -->
+
+  <!-- Part 1: Category -->
   <div class="part">
-    <div class="part-title">
-      📊 1 · Select activity category
-      <span>type or click dropdown</span>
-    </div>
-    <div class="form-group">
-      <label for="categoryInput">🏷️ Category name (e.g., BELL_RING, PLAYER_KILLS, MINECART_ONE_CM)</label>
-      <input type="text" id="categoryInput" class="combo-input" list="categoryDatalist" placeholder="Start typing category...">
-      <datalist id="categoryDatalist"></datalist>
-    </div>
-    <div style="font-size:0.8rem; color:#4a4a4a; margin-top: 0.25rem;">
-      💡 Tip: categories are loaded from the CSV header row.
-    </div>
+    <div class="part-title">1 · Select activity category</div>
+    <input type="text" id="categoryInput" class="combo-input" list="categoryDatalist" placeholder="Type or select category...">
+    <datalist id="categoryDatalist"></datalist>
   </div>
 
-  <!-- PART 2: Two players selection (dropdowns with typing) -->
+  <!-- Part 2: Two players -->
   <div class="part">
-    <div class="part-title">
-      🎮 2 · Compare two players
-      <span>both dropdowns are searchable</span>
-    </div>
+    <div class="part-title">2 · Compare two players</div>
     <div class="double-players">
       <div class="player-box">
-        <label for="player1Input">👤 Player 1</label>
-        <input type="text" id="player1Input" class="combo-input" list="playerDatalist" placeholder="Search / select player...">
+        <label>Player 1</label>
+        <input type="text" id="player1Input" class="combo-input" list="playerDatalist" placeholder="Search player...">
       </div>
       <div class="player-box">
-        <label for="player2Input">👥 Player 2</label>
-        <input type="text" id="player2Input" class="combo-input" list="playerDatalist" placeholder="Search / select player...">
+        <label>Player 2</label>
+        <input type="text" id="player2Input" class="combo-input" list="playerDatalist" placeholder="Search player...">
       </div>
       <div>
-        <button id="refreshBtn" class="update-btn">⟳ Update & compare</button>
+        <button id="refreshBtn" class="update-btn">Update & compare</button>
       </div>
     </div>
-    <div style="margin-top: 12px; font-size:0.78rem; color:#3f3f3f;">
-      ✅ You can type any player name — must match exactly one from the list (case-sensitive as in CSV).
+    <datalist id="playerDatalist"></datalist>
+  </div>
+
+  <!-- Part 3: Results (only comparison) -->
+  <div class="part">
+    <div class="part-title">3 · Activity results</div>
+    <div id="resultsContainer">
+      <div class="loading">Loading data from "II_Ungrouped_Stats.cvs" ...</div>
     </div>
   </div>
 
-  <!-- PART 3: results area - comparison + full table (all players numbers for selected category) -->
-  <div class="part">
-    <div class="part-title">
-      📈 3 · Activity results & full leaderboard
-      <span>read out loud numbers</span>
-    </div>
-    <div id="resultsContainer">
-      <!-- dynamic content: comparison + all players table -->
-      <div class="loading">⏳ Loading data from "II_Ungrouped_Stats.cvs" ...</div>
-    </div>
-  </div>
-  <footer>
-    📁 Data source: <strong>II_Ungrouped_Stats.cvs</strong> (first column = player names, first row = category names).<br>
-    🔍 Dropdowns support typing for quick search. Click "Update" to refresh comparison & full table.
-  </footer>
+  <footer>Koy was here</footer>
 </div>
 
 <script>
-  // ----- GLOBAL STATE -----
-  let categories = [];            // array of category strings (from header, column 2..N)
-  let playersList = [];          // array of player names (from first column)
-  let playerStatsMap = new Map(); // key: playerName, value: object { categoryName: numericValue }
-  
-  let dataLoaded = false;
-  let loadError = null;
+  let categories = [], playersList = [], playerStatsMap = new Map();
+  let dataLoaded = false, loadError = null;
 
-  // DOM elements
   const categoryInput = document.getElementById('categoryInput');
   const player1Input = document.getElementById('player1Input');
   const player2Input = document.getElementById('player2Input');
@@ -345,10 +256,9 @@
   const categoryDatalist = document.getElementById('categoryDatalist');
   const playerDatalist = document.getElementById('playerDatalist');
 
-  // Helper: populate category datalist
   function updateCategoryDatalist() {
+    if (!categoryDatalist) return;
     categoryDatalist.innerHTML = '';
-    if (!categories.length) return;
     categories.forEach(cat => {
       const option = document.createElement('option');
       option.value = cat;
@@ -356,10 +266,9 @@
     });
   }
 
-  // Helper: populate player datalist (both inputs share same datalist)
   function updatePlayerDatalist() {
+    if (!playerDatalist) return;
     playerDatalist.innerHTML = '';
-    if (!playersList.length) return;
     playersList.forEach(player => {
       const option = document.createElement('option');
       option.value = player;
@@ -367,283 +276,157 @@
     });
   }
 
-  // render everything: comparison + full table of all players for selected category
-  function renderDashboard() {
-    if (!dataLoaded) {
-      resultsContainer.innerHTML = '<div class="loading">⏳ Waiting for CSV data to load...</div>';
-      return;
-    }
-    if (loadError) {
-      resultsContainer.innerHTML = `<div class="error-msg">⚠️ Error loading CSV: ${loadError}. Make sure "II_Ungrouped_Stats.cvs" exists in the same folder as this page and is accessible (use a local web server).</div>`;
-      return;
-    }
-    if (categories.length === 0 || playersList.length === 0) {
-      resultsContainer.innerHTML = '<div class="error-msg">⚠️ No valid data: empty categories or player list. Check CSV format.</div>';
-      return;
-    }
-
-    // get selected category (trim, check existence)
-    let selectedCategory = categoryInput.value.trim();
-    let categoryValid = categories.includes(selectedCategory);
-    if (!selectedCategory) {
-      resultsContainer.innerHTML = '<div class="error-msg">❗ Please select or type a valid category from the dropdown.</div>';
-      return;
-    }
-    if (!categoryValid) {
-      resultsContainer.innerHTML = `<div class="error-msg">❌ Category "${escapeHtml(selectedCategory)}" not found in spreadsheet. Available categories: ${categories.slice(0, 8).join(', ')}${categories.length > 8 ? '…' : ''}. Use dropdown suggestions.</div>`;
-      return;
-    }
-
-    // get selected players
-    let p1 = player1Input.value.trim();
-    let p2 = player2Input.value.trim();
-    let player1Valid = playersList.includes(p1);
-    let player2Valid = playersList.includes(p2);
-    
-    if (!player1Valid && p1 !== "") {
-      // show warning but still render table, highlight that player missing
-    }
-    if (!player2Valid && p2 !== "") {
-      // similar
-    }
-
-    // --- Build HTML structure ---
-    let html = '';
-
-    // ---- COMPARISON SECTION (highlight both players) ----
-    const p1Value = player1Valid && playerStatsMap.has(p1) ? playerStatsMap.get(p1)[selectedCategory] : null;
-    const p2Value = player2Valid && playerStatsMap.has(p2) ? playerStatsMap.get(p2)[selectedCategory] : null;
-    
-    const isNumber = (val) => typeof val === 'number' && !isNaN(val);
-    const formatStat = (val) => isNumber(val) ? val.toLocaleString() : (val !== undefined && val !== null ? val : 'N/A');
-
-    html += `<div class="comparison-card">
-              <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <div class="stats-badge">🎯 CATEGORY: ${escapeHtml(selectedCategory)}</div>
-                <div class="stats-badge">👥 ${playersList.length} players total</div>
-              </div>
-              <div class="comparison-grid">`;
-    
-    // Player 1 block
-    html += `<div class="single-player-stat">
-                <div class="player-name">${player1Valid ? escapeHtml(p1) : '❌ ' + escapeHtml(p1) + ' (invalid)'}</div>
-                <div class="stat-number">${player1Valid ? formatStat(p1Value) : '—'}</div>
-                <div style="font-size:0.75rem; margin-top: 5px;">${selectedCategory}</div>
-              </div>`;
-    // Player 2 block
-    html += `<div class="single-player-stat">
-                <div class="player-name">${player2Valid ? escapeHtml(p2) : '❌ ' + escapeHtml(p2) + ' (invalid)'}</div>
-                <div class="stat-number">${player2Valid ? formatStat(p2Value) : '—'}</div>
-                <div style="font-size:0.75rem; margin-top: 5px;">${selectedCategory}</div>
-              </div>`;
-    html += `</div>`; // close comparison-grid
-    
-    // difference if both valid numbers
-    if (player1Valid && player2Valid && isNumber(p1Value) && isNumber(p2Value)) {
-      const diff = p1Value - p2Value;
-      const absDiff = Math.abs(diff);
-      const relation = diff > 0 ? `➡️ ${escapeHtml(p1)} leads by ${absDiff.toLocaleString()}` : (diff < 0 ? `⬅️ ${escapeHtml(p2)} leads by ${absDiff.toLocaleString()}` : `⚖️ Tie — both have ${formatStat(p1Value)}`);
-      html += `<div class="diff-info">📊 ${relation}</div>`;
-    } else if (player1Valid && player2Valid && (!isNumber(p1Value) || !isNumber(p2Value))) {
-      html += `<div class="diff-info">⚠️ Comparison unavailable: one or both values are non-numeric (${formatStat(p1Value)} / ${formatStat(p2Value)})</div>`;
-    } else if (!player1Valid || !player2Valid) {
-      html += `<div class="diff-info">❗ Please select valid players from the list to compare.</div>`;
-    }
-    html += `</div>`; // close comparison-card
-
-    // ---- FULL TABLE: every player with their number for selected category (read out loud) ----
-    // Build table rows (sorted alphabetically by player name)
-    const sortedPlayers = [...playersList].sort((a,b) => a.localeCompare(b));
-    
-    html += `<div style="margin-top: 1.5rem;"><strong>📋 All players — "${escapeHtml(selectedCategory)}" values</strong> <span style="font-weight:normal;">(read numbers aloud)</span></div>
-             <div class="table-wrapper">
-               <table class="stats-table">
-                 <thead>
-                    <tr><th>Player name</th><th>${escapeHtml(selectedCategory)}</th></tr>
-                 </thead>
-                 <tbody>`;
-    
-    for (let player of sortedPlayers) {
-      const statsObj = playerStatsMap.get(player);
-      let rawValue = statsObj ? statsObj[selectedCategory] : undefined;
-      let displayValue = (rawValue !== undefined && rawValue !== null) ? (typeof rawValue === 'number' ? rawValue.toLocaleString() : rawValue) : '—';
-      // highlight if player matches selected P1 or P2 (valid names only)
-      const isHighlight = (player === p1 && playersList.includes(p1)) || (player === p2 && playersList.includes(p2));
-      const highlightClass = isHighlight ? 'highlight-row' : '';
-      html += `<tr class="${highlightClass}">
-                  <td style="font-weight: ${isHighlight ? '600' : 'normal'}">${escapeHtml(player)}</td>
-                  <td style="font-family: monospace; font-weight: 500;">${escapeHtml(String(displayValue))}</td>
-                </tr>`;
-    }
-    html += `</tbody></table></div>
-             <div style="margin-top: 12px; font-size:0.75rem; color:#555;">✅ You can read each player's number for "${escapeHtml(selectedCategory)}" directly from this table.</div>`;
-    
-    resultsContainer.innerHTML = html;
-  }
-
-  // simple escape to avoid XSS
   function escapeHtml(str) {
-    if (str === undefined || str === null) return '';
+    if (!str) return '';
     return String(str).replace(/[&<>]/g, function(m) {
       if (m === '&') return '&amp;';
       if (m === '<') return '&lt;';
       if (m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
   }
 
-  // load and parse CSV: "II_Ungrouped_Stats.cvs"
-  async function loadCSVData() {
-    resultsContainer.innerHTML = '<div class="loading">📂 Fetching II_Ungrouped_Stats.cvs ...</div>';
-    try {
-      const response = await fetch('II_Ungrouped_Stats.cvs');
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: Could not fetch file. Ensure "II_Ungrouped_Stats.cvs" is in the same directory and you are using a web server (not file:// protocol).`);
-      }
-      const csvText = await response.text();
-      // use PapaParse to robustly parse CSV (handles quotes, dynamic typing)
-      Papa.parse(csvText, {
-        delimiter: ",",
-        dynamicTyping: true,      // auto convert numbers
-        skipEmptyLines: true,
-        complete: (result) => {
-          if (result.errors && result.errors.length) {
-            console.warn("Parsing warnings:", result.errors);
-          }
-          const data = result.data;
-          if (!data || data.length < 2) {
-            loadError = "CSV has insufficient rows (need header + at least one player row).";
-            dataLoaded = false;
-            resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
-            return;
-          }
-          
-          // --- Extract categories from FIRST ROW (index 0), starting from column index 1 (skip first column which is "PlayerName" column)
-          const headerRow = data[0];
-          if (!headerRow || headerRow.length < 2) {
-            loadError = "CSV header row missing or has only one column (need player names + categories).";
-            dataLoaded = false;
-            resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
-            return;
-          }
-          // categories = all columns except first column (index 0)
-          categories = [];
-          for (let i = 1; i < headerRow.length; i++) {
-            let catName = headerRow[i];
-            if (catName !== undefined && catName !== null && String(catName).trim() !== "") {
-              categories.push(String(catName).trim());
-            } else {
-              // if empty column header, assign generic name to avoid missing
-              categories.push(`Column_${i}`);
-            }
-          }
-          
-          if (categories.length === 0) {
-            loadError = "No category columns found (first row has only player names column).";
-            dataLoaded = false;
-            resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
-            return;
-          }
-          
-          // parse players data: rows from index 1 onward
-          playerStatsMap.clear();
-          playersList = [];
-          
-          for (let r = 1; r < data.length; r++) {
-            const row = data[r];
-            if (!row || row.length === 0) continue;
-            // first column is player name
-            let playerNameRaw = row[0];
-            if (playerNameRaw === undefined || playerNameRaw === null || String(playerNameRaw).trim() === "") continue;
-            const playerName = String(playerNameRaw).trim();
-            playersList.push(playerName);
-            
-            const playerStats = {};
-            // iterate over categories indices: category i corresponds to column i+1 in row
-            for (let catIdx = 0; catIdx < categories.length; catIdx++) {
-              const colIndex = catIdx + 1; // because column0 is player name
-              let rawVal = (colIndex < row.length) ? row[colIndex] : null;
-              // keep numeric or string as is (dynamicTyping already parsed numbers)
-              playerStats[categories[catIdx]] = (rawVal !== undefined && rawVal !== null) ? rawVal : null;
-            }
-            playerStatsMap.set(playerName, playerStats);
-          }
-          
-          if (playersList.length === 0) {
-            loadError = "No valid players found in CSV (first column empty or missing).";
-            dataLoaded = false;
-            resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
-            return;
-          }
-          
-          // Success
-          dataLoaded = true;
-          loadError = null;
-          
-          // update UI dropdowns
-          updateCategoryDatalist();
-          updatePlayerDatalist();
-          
-          // set default values: first category, first two players (if exists)
-          if (categories.length) {
-            categoryInput.value = categories[0];
-          }
-          if (playersList.length > 0) {
-            player1Input.value = playersList[0];
-            if (playersList.length > 1) {
-              player2Input.value = playersList[1];
-            } else {
-              player2Input.value = playersList[0];
-            }
-          } else {
-            player1Input.value = "";
-            player2Input.value = "";
-          }
-          
-          // initial render
-          renderDashboard();
-        },
-        error: (err) => {
-          console.error(err);
-          loadError = "PapaParse error: " + (err.message || "unknown CSV error");
-          dataLoaded = false;
-          resultsContainer.innerHTML = `<div class="error-msg">CSV parsing failed: ${escapeHtml(loadError)}</div>`;
-        }
-      });
-    } catch (fetchErr) {
-      console.error(fetchErr);
-      loadError = fetchErr.message || "Network error while fetching CSV file.";
-      dataLoaded = false;
-      resultsContainer.innerHTML = `<div class="error-msg">❌ ${escapeHtml(loadError)}<br><br>🔧 Make sure:<br>• The file is named <strong>II_Ungrouped_Stats.cvs</strong> in the same folder.<br>• You are running via a local web server (e.g., "npx serve", Python http.server, Live Server).<br>• The CSV is valid (first column: player names, first row: category names).</div>`;
-    }
-  }
-
-  // manual update trigger (also after load, button)
-  function onUpdateRequest() {
+  function renderComparison() {
     if (!dataLoaded) {
-      resultsContainer.innerHTML = '<div class="error-msg">Data not loaded yet. Wait or refresh page.</div>';
+      resultsContainer.innerHTML = '<div class="loading">Waiting for CSV data...</div>';
       return;
     }
-    renderDashboard();
+    if (loadError) {
+      resultsContainer.innerHTML = `<div class="error-msg">${escapeHtml(loadError)}</div>`;
+      return;
+    }
+    if (!categories.length || !playersList.length) {
+      resultsContainer.innerHTML = '<div class="error-msg">No valid data found.</div>';
+      return;
+    }
+
+    let selectedCategory = categoryInput.value.trim();
+    if (!selectedCategory || !categories.includes(selectedCategory)) {
+      resultsContainer.innerHTML = '<div class="error-msg">Please select a valid category from the dropdown.</div>';
+      return;
+    }
+
+    let p1 = player1Input.value.trim();
+    let p2 = player2Input.value.trim();
+    let p1Valid = playersList.includes(p1);
+    let p2Valid = playersList.includes(p2);
+
+    const p1Value = p1Valid ? playerStatsMap.get(p1)[selectedCategory] : null;
+    const p2Value = p2Valid ? playerStatsMap.get(p2)[selectedCategory] : null;
+    const isNumber = (v) => typeof v === 'number' && !isNaN(v);
+    const formatStat = (v) => isNumber(v) ? v.toLocaleString() : (v !== undefined ? v : 'N/A');
+
+    let html = `<div class="comparison-card">
+      <div><span class="stats-badge">Category: ${escapeHtml(selectedCategory)}</span><span class="stats-badge">Players total: ${playersList.length}</span></div>
+      <div class="comparison-grid">
+        <div class="single-player-stat">
+          <div class="player-name">${p1Valid ? escapeHtml(p1) : 'Invalid: ' + escapeHtml(p1)}</div>
+          <div class="stat-number">${p1Valid ? formatStat(p1Value) : '—'}</div>
+        </div>
+        <div class="single-player-stat">
+          <div class="player-name">${p2Valid ? escapeHtml(p2) : 'Invalid: ' + escapeHtml(p2)}</div>
+          <div class="stat-number">${p2Valid ? formatStat(p2Value) : '—'}</div>
+        </div>
+      </div>`;
+
+    if (p1Valid && p2Valid && isNumber(p1Value) && isNumber(p2Value)) {
+      const diff = p1Value - p2Value;
+      const diffAbs = Math.abs(diff);
+      let diffText = '';
+      if (diff > 0) diffText = `${escapeHtml(p1)} leads by ${diffAbs.toLocaleString()}`;
+      else if (diff < 0) diffText = `${escapeHtml(p2)} leads by ${diffAbs.toLocaleString()}`;
+      else diffText = `Tie – both have ${formatStat(p1Value)}`;
+      html += `<div class="diff-info">${diffText}</div>`;
+    } else if (p1Valid && p2Valid) {
+      html += `<div class="diff-info">Comparison unavailable (non‑numeric values)</div>`;
+    } else {
+      html += `<div class="diff-info">Please select two valid players from the list</div>`;
+    }
+    html += `</div>`;
+    resultsContainer.innerHTML = html;
   }
 
-  // attach event listeners
-  refreshBtn.addEventListener('click', onUpdateRequest);
-  // optional: also update on category change and player change for better UX? but spec requires update button but we also call update on category blur maybe but safer to have update button.
-  // Additional convenience: pressing Enter in any input triggers update
-  const inputs = [categoryInput, player1Input, player2Input];
-  inputs.forEach(inp => {
-    inp.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        onUpdateRequest();
-      }
-    });
-  });
-  
-  // start loading CSV
+  function loadCSVData() {
+    resultsContainer.innerHTML = '<div class="loading">Loading II_Ungrouped_Stats.cvs ...</div>';
+    fetch('II_Ungrouped_Stats.cvs')
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}: File not found. Make sure the CSV is in the same folder and you are using a web server.`);
+        return res.text();
+      })
+      .then(csvText => {
+        Papa.parse(csvText, {
+          delimiter: ",",
+          dynamicTyping: true,
+          skipEmptyLines: true,
+          complete: (result) => {
+            const data = result.data;
+            if (!data || data.length < 2) {
+              loadError = "CSV has insufficient rows (need header + at least one player).";
+              dataLoaded = false;
+              resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
+              return;
+            }
+            const headerRow = data[0];
+            categories = [];
+            for (let i = 1; i < headerRow.length; i++) {
+              let cat = headerRow[i];
+              categories.push(cat !== undefined && cat !== null ? String(cat).trim() : `Column_${i}`);
+            }
+            if (categories.length === 0) {
+              loadError = "No category columns found.";
+              dataLoaded = false;
+              resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
+              return;
+            }
+            playerStatsMap.clear();
+            playersList = [];
+            for (let r = 1; r < data.length; r++) {
+              const row = data[r];
+              if (!row || row.length === 0) continue;
+              let playerName = row[0];
+              if (!playerName || String(playerName).trim() === "") continue;
+              playerName = String(playerName).trim();
+              playersList.push(playerName);
+              const stats = {};
+              for (let i = 0; i < categories.length; i++) {
+                let val = (i+1 < row.length) ? row[i+1] : null;
+                stats[categories[i]] = val;
+              }
+              playerStatsMap.set(playerName, stats);
+            }
+            if (playersList.length === 0) {
+              loadError = "No valid players found.";
+              dataLoaded = false;
+              resultsContainer.innerHTML = `<div class="error-msg">${loadError}</div>`;
+              return;
+            }
+            dataLoaded = true;
+            loadError = null;
+            updateCategoryDatalist();
+            updatePlayerDatalist();
+            if (categories.length) categoryInput.value = categories[0];
+            if (playersList.length) {
+              player1Input.value = playersList[0];
+              player2Input.value = playersList[1] || playersList[0];
+            }
+            renderComparison();
+          },
+          error: (err) => {
+            loadError = "CSV parsing error: " + (err.message || "unknown");
+            dataLoaded = false;
+            resultsContainer.innerHTML = `<div class="error-msg">${escapeHtml(loadError)}</div>`;
+          }
+        });
+      })
+      .catch(err => {
+        loadError = err.message || "Failed to fetch CSV. Use a local web server (e.g., 'python -m http.server 8000').";
+        dataLoaded = false;
+        resultsContainer.innerHTML = `<div class="error-msg">${escapeHtml(loadError)}</div>`;
+      });
+  }
+
+  refreshBtn.addEventListener('click', renderComparison);
+  [categoryInput, player1Input, player2Input].forEach(inp => inp.addEventListener('keypress', e => { if (e.key === 'Enter') renderComparison(); }));
   loadCSVData();
 </script>
 </body>
