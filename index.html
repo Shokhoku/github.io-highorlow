@@ -250,7 +250,7 @@
 <body>
 <div class="container">
   <h1>Gambling helper</h1>
-  <div class="sub">Built by Koy</div>
+  <div class="sub">Yowzers</div>
 
   <!-- Spreadsheet switcher -->
   <div class="part">
@@ -600,6 +600,41 @@
       html += `<div class="diff-info">Please select two valid players from the list</div>`;
     }
     html += `</div>`;
+
+    // ----- FULL LEADERBOARD TABLE (all players, sorted by highest value first) -----
+// Build an array of [player, value] pairs, then sort descending by value
+const playerValuePairs = [];
+for (let player of playersList) {
+  let val = playerStatsMap.get(player)[selectedCategory];
+  let numericVal = (typeof val === 'number' && !isNaN(val)) ? val : -Infinity;
+  playerValuePairs.push({ player, val, numericVal });
+}
+// Sort descending by numeric value (highest first)
+playerValuePairs.sort((a, b) => b.numericVal - a.numericVal);
+
+html += `<div style="margin-top: 2rem;"><strong>All players – ${escapeHtml(selectedCategory)} values</strong> (sorted highest first)</div>
+         <div class="table-wrapper" style="overflow-x: auto; border-radius: 18px; border: 1px solid #e2e2e2; margin-top: 0.8rem;">
+           <table class="stats-table" style="width: 100%; border-collapse: collapse;">
+             <thead>
+               <tr style="background: #f2f2f2;"><th style="padding: 10px 16px; text-align: left;">Player</th><th style="padding: 10px 16px; text-align: left;">${escapeHtml(selectedCategory)}</th></tr>
+             </thead>
+             <tbody>`;
+
+for (let i = 0; i < playerValuePairs.length; i++) {
+  const { player, val } = playerValuePairs[i];
+  const display = (val !== undefined && val !== null) ? (typeof val === 'number' ? val.toLocaleString() : val) : '—';
+  const isHighlight = (player === p1 && p1Valid) || (player === p2 && p2Valid);
+  const highlightClass = isHighlight ? 'highlight-row' : '';
+  // Optional: add a "top 10" visual indicator
+  const top10Badge = (i < 10) ? ' ' : '';
+  html += `<tr class="${highlightClass}" style="border-bottom: 1px solid #ececec;">
+            <td style="padding: 8px 16px; ${isHighlight ? 'background-color: #fff0cc; font-weight: 600;' : ''}">${escapeHtml(player)}${top10Badge}</td>
+            <td style="padding: 8px 16px; font-family: monospace;">${escapeHtml(String(display))}</td>
+           </tr>`;
+}
+html += `</tbody></table></div>`;
+    html += `</tbody></table></div>`;
+
     resultsContainer.innerHTML = html;
   }
 
